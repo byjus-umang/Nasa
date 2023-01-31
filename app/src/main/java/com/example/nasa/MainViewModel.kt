@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -33,7 +34,7 @@ class NasaViewModel: ViewModel() {
 
    }
     init{
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO){
             val response= dataApi.retrofitService.getdata().body() ?: UserResponse()
             data=response
         }

@@ -20,7 +20,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,30 +55,14 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
-            val painter= painterResource(id = R.drawable.pexels_1)
-            val contentDescription="Meteoroids"
-            val title="Passing by"
+
+
             val date1:String
 
             viewModel.update()
-
+            Architecture(viewModel)
             date1=showDatePicker(this)
-               Column() {
 
-                   Text(text = viewModel.data.title, fontSize = 20.sp)
-                   Spacer(modifier = Modifier.height(20.dp))
-                   imagecard(painter = painter, contentDescription =contentDescription , title =title,
-                       Modifier
-
-                           .background(color = Color.Gray))
-                   Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                       Text(text=date1, fontSize = 20.sp)
-                   }
-
-                   Text(textAlign = TextAlign.Center,
-                       text=viewModel.data.explanation, overflow =TextOverflow.Ellipsis, maxLines = 2
-                   )
-               }
 
 
         }
@@ -137,6 +125,30 @@ fun showDatePicker(context: MainActivity):String{
         }
     }
 return date.value
+}
+@Composable
+fun Architecture(viewModel:NasaViewModel)
+{    val painter= painterResource(id = R.drawable.pexels_1)
+    val contentDescription="Meteoroids"
+    val title="Passing by"
+    Column() {
+       Column(Modifier.padding(5.dp)) {
+           Text(text = viewModel.data.title, fontSize = 20.sp, style= TextStyle(textDecoration = TextDecoration.Underline), fontWeight = FontWeight.Bold)
+       }
+
+        Spacer(modifier = Modifier.height(20.dp))
+        imagecard(painter = painter, contentDescription =contentDescription , title =title,
+            Modifier
+
+                .background(color = Color.Gray))
+        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(text=viewModel.data.date, fontSize = 20.sp,fontWeight = FontWeight.Bold)
+        }
+
+        Text(textAlign = TextAlign.Center,
+            text=viewModel.data.explanation, overflow =TextOverflow.Ellipsis, maxLines = 2,fontWeight = FontWeight.Bold
+        )
+    }
 }
 
 
