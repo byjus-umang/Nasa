@@ -1,9 +1,9 @@
 package com.example.nasa
 
-data class UserResponse(
-    val date: String="2202",
-    val explanation: String="Ha",
-    val hdurl: String="kj",
+data class ApodResponse(
+    val date: String="",
+    val explanation: String="",
+    val hdurl: String="",
     val media_type: String="",
     val service_version: String="",
     val title: String="",

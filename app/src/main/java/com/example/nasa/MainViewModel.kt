@@ -1,5 +1,6 @@
 package com.example.nasa
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,31 +16,60 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 data class NasaUiState(
-    var description: String,
-    var title : String,
-    var date: String,
+       val title : String = "",
+       val description: String = "",
+       val date: String = "",
+       val imageUrl : String = "",
+       val showDatePicker : Boolean = false,
+       val errorMessage : String = ""
 
     )
 class NasaViewModel: ViewModel() {
-    private var _uiState = MutableStateFlow(NasaUiState(description = "Hey", title = "Hii", date = "Hey"))
+
+    private val _uiState = MutableStateFlow(NasaUiState())
     val uiState: StateFlow<NasaUiState> = _uiState.asStateFlow()
-      var data:UserResponse by mutableStateOf(UserResponse(date = "ss",
-          explanation = "ssss", hdurl = "sss", media_type = "Fe", service_version = "sss", title = "xsw", url = "xsss", copyright = "xsxs"))
-   fun update(){
-     this._uiState.value.title="Wow"
-       _uiState.value.description="Meteoroids are objects in space that range in size from dust grains to small asteroids. Think of them as “space rocks.\" When meteoroids enter Earth's atmosphere (or that of another planet, like Mars) at high speed and burn up, the fireballs or “shooting stars” are called meteors."
-       _uiState.value.date="Hiiiiii"
 
+    fun getApodResponse(date: String) {
+                viewModelScope.launch(Dispatchers.IO) {
+                        try {
+                                val response = DataApi.retrofitService.getData(date = date)
+                             if (response.isSuccessful) {
+                                        val apodResponse = response.body()
+                                      _uiState.value = NasaUiState(
+                                                title = apodResponse?.title ?: "",
+                                                description = apodResponse?.explanation ?: "",
+                                                date = apodResponse?.date ?: "",
+                                                imageUrl = apodResponse?.url ?: "",
+                                              errorMessage = ""
+                                                  )
+                                    } else {
+                                        _uiState.value = _uiState.value.copy(
+                                              errorMessage = "Oops! Something went wrong!"
+                                                    )
+                                    }
+                            } catch (exc : Exception) {
+                               _uiState.value = _uiState.value.copy(
+                                       errorMessage = "Oops! Something went wrong!"
+                                          )
 
-
-   }
-    init{
-        viewModelScope.launch(Dispatchers.IO){
-            val response= dataApi.retrofitService.getdata().body() ?: UserResponse()
-            data=response
+                          }
         }
+          }
 
+       fun showDatePicker() {
+             _uiState.value = _uiState.value.copy(
+                      showDatePicker = true,
+                      errorMessage = ""
+                          )
+           }
 
+       fun hideDatePicker() {
+                _uiState.value = _uiState.value.copy(
+            showDatePicker = false,
+                    errorMessage = ""
+        )
     }
+
+
 
 }
