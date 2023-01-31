@@ -13,9 +13,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
+import androidx.compose.material.ContentAlpha.medium
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
@@ -31,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import coil.compose.AsyncImage
 
 import kotlinx.coroutines.launch
 import java.util.*
@@ -137,16 +140,21 @@ fun Architecture(viewModel:NasaViewModel)
        }
 
         Spacer(modifier = Modifier.height(20.dp))
-        imagecard(painter = painter, contentDescription =contentDescription , title =title,
-            Modifier
+//        imagecard(painter = painter, contentDescription =contentDescription , title =title,
+//            Modifier
+//
+//                .background(color = Color.Gray))
+        Box(Modifier.fillMaxWidth().align(Alignment.CenterHorizontally)) {
+            AsyncImage(model = viewModel.data.url, contentDescription =null, modifier = Modifier.size(500.dp), contentScale = ContentScale.Crop, alignment =Alignment.Center)
+        }
 
-                .background(color = Color.Gray))
+
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
             Text(text=viewModel.data.date, fontSize = 20.sp,fontWeight = FontWeight.Bold)
         }
 
         Text(textAlign = TextAlign.Center,
-            text=viewModel.data.explanation, overflow =TextOverflow.Ellipsis, maxLines = 2,fontWeight = FontWeight.Bold
+            text=viewModel.data.explanation, overflow =TextOverflow.Ellipsis,fontWeight = FontWeight.Bold
         )
     }
 }

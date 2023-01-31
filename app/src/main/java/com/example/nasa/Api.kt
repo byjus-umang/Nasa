@@ -9,12 +9,12 @@ import retrofit2.http.GET
 
 val baseUrl="https://api.nasa.gov/"
 //val viewModel: NasaViewModel()
-const val date:String= "2022-01-01"
+const val date:String= "2023-01-27"
 val retrofitBuilder=Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(
     baseUrl).build()
 interface dataservice{
     @GET(
-        "planetary/apod?api_key=OHF8WZZT5AIs0UklqfKW1mHQvs6zLputIzkinGbb"
+        "planetary/apod?api_key=OHF8WZZT5AIs0UklqfKW1mHQvs6zLputIzkinGbb&date=${date}"
     )
     suspend fun getdata(): Response<UserResponse>
 
