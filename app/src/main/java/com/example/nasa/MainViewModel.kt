@@ -34,7 +34,7 @@ class NasaViewModel: ViewModel() {
    }
     init{
         viewModelScope.launch {
-            val response= dataApi.retrofitService.getdata()
+            val response= dataApi.retrofitService.getdata().body() ?: UserResponse()
             data=response
         }
 

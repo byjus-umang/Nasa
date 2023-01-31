@@ -1,6 +1,7 @@
 package com.example.nasa
 
 import androidx.lifecycle.viewmodel.compose.viewModel
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -15,7 +16,7 @@ interface dataservice{
     @GET(
         "planetary/apod?api_key=OHF8WZZT5AIs0UklqfKW1mHQvs6zLputIzkinGbb"
     )
-    suspend fun getdata():UserResponse
+    suspend fun getdata(): Response<UserResponse>
 
 }
 object dataApi{
