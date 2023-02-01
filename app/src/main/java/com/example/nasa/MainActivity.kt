@@ -11,16 +11,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -79,10 +70,11 @@ fun NasaAPODScreen(
       val context = LocalContext.current
        Column(
               modifier = modifier
+                  .verticalScroll(rememberScrollState())
                   .fillMaxWidth()
                   .fillMaxHeight()
                   .padding(8.dp)
-                  .verticalScroll(rememberScrollState())
+
                     ) {
             Row(
                 modifier = Modifier
@@ -126,7 +118,7 @@ fun NasaAPODScreen(
                                     ) {
 
                                AsyncImage(
-                                        modifier = Modifier.size(500.dp),
+                                        modifier = Modifier.size(400.dp),
                                         model = uiState.value.imageUrl,
                                         contentDescription = null,
                                         contentScale = ContentScale.Crop,
